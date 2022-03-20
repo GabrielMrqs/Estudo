@@ -10,7 +10,7 @@ sct = mss.mss()
 class Screen:
 
     @staticmethod
-    def getScreenshot(object: Event, visible):
+    def getScreenshot(object: Event, visible: bool):
 
         img = numpy.array(sct.grab(object.location))
         img = img[..., :3]
@@ -22,12 +22,14 @@ class Screen:
         object.doAction(max_val)
 
         if visible:
-            template_w = object.image.shape[1]
-            template_h = object.image.shape[0]
+            show(object, visible, img, max_loc)
 
-            img = img.copy()
 
-            cv2.rectangle(
-                img, max_loc, (max_loc[0] + template_w, max_loc[1] + template_h), (0, 255, 255), 2)
-            cv2.imshow('Screen Shot', img)
-            cv2.waitKey(1)
+def show(object, img, max_loc):
+    template_w = object.image.shape[1]
+    template_h = object.image.shape[0]
+    img = img.copy()
+    cv2.rectangle(
+        img, max_loc, (max_loc[0] + template_w, max_loc[1] + template_h), (0, 255, 255), 2)
+    cv2.imshow('Screen Shot', img)
+    cv2.waitKey(1)
